@@ -180,11 +180,11 @@ myGame: page('./games/my-game/index.html'),
    ```bash
    pnpm add -D electron @electron/packager --allow-build=electron
    ```
-2. 如果网络有中间人代理，下载 Electron 二进制会报 `UNABLE_TO_VERIFY_LEAF_SIGNATURE`，打包前设一个环境变量：
+2. Electron 二进制约 100 MB，国内下载容易失败。建议配置镜像后重试：
    ```bash
-   set NODE_TLS_REJECT_UNAUTHORIZED=0
+   set ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/
    ```
-   （只影响下载，不影响运行）
+   或者挂代理再执行 `pnpm install`。
 
 ---
 
@@ -216,7 +216,7 @@ tar -a -c -f game-sandbox-win32-x64.zip "Sandbox-win32-x64" "启动游戏.bat" "
 **4. 发 Release**
 
 - **网页**：仓库右侧 Releases → Draft a new release → 新建 tag（如 `v0.2.0`）→ 把 zip 拖进附件区 → Publish
-- **命令行**：用 GitHub API 创建 release 再上传附件，或者直接让 AI 助手代劳
+- **命令行**：用 GitHub API 创建 release 再上传附件
 
 > `.gitignore` 已排除 `Sandbox-win32-x64/`、`*.zip`、`dist/`、`drop-zone.html`、`node_modules/`，不会误提交。
 >
