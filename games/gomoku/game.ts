@@ -338,7 +338,8 @@ export function createGame(mount: HTMLElement): void {
       <button id="restart">重开</button>
       <button id="mute">静音</button>
     </div>
-    <p class="tips">点击棋盘落子</p>`
+    <p class="tips">点击棋盘落子</p>
+    <a id="back" href="../../index.html">← 返回沙盒</a>`
 
   const statusEl = panel.querySelector('#status') as HTMLElement
   const setStatus = (t: string) => {

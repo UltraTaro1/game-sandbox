@@ -11,14 +11,6 @@ export const GAMES: GameManifest[] = [
     href: './games/battle-royale/index.html',
   },
   {
-    id: 'reaction',
-    name: '反应靶场',
-    tagline: '点得准，打得快',
-    desc: '30 秒内点掉尽可能多的靶子，连击不断分数越高。用来证明沙盒能同时装 2D 小游戏。',
-    tags: ['2D', '休闲'],
-    href: './games/reaction/index.html',
-  },
-  {
     id: 'gomoku',
     name: '五子棋',
     tagline: '人机 · 双人',
