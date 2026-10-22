@@ -1,6 +1,6 @@
 ## GAME SANDBOX v0.1
 
-免安装 Windows 版（x64）。解压后双击 `启动游戏.bat` 即可。
+免安装 Windows 版（x64）。解压后双击 `启动游戏.bat`，会打开沙盒首页，从首页进入各个游戏。
 
 ### 内容
 
@@ -18,13 +18,10 @@
 
 1. 下载并解压 `game-sandbox-win32-x64.zip`
 2. 双击 `启动游戏.bat`（或 `Sandbox-win32-x64\Sandbox.exe`）
-3. 首次运行 Windows SmartScreen 可能提示，点「更多信息 → 仍要运行」
+3. 首页选择游戏，游戏内可随时返回沙盒
+4. 首次运行 Windows SmartScreen 可能提示，点「更多信息 → 仍要运行」
 
 > 整个 `Sandbox-win32-x64` 文件夹要一起拷贝，不能只拿 exe 单文件。
-
-### 只想玩吃鸡？
-
-压缩包里还有 `drop-zone.html`，双击直接用浏览器打开，不需要运行 exe。
 
 ### 系统要求
 
