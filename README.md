@@ -188,6 +188,42 @@ myGame: page('./games/my-game/index.html'),
 
 ---
 
+## 发布新版本
+
+代码仓库只放源码，安装包走 GitHub Releases（仓库不接受单文件超 100 MB，exe 压缩后 154 MB）。
+
+**1. 提交代码**
+
+```bash
+git add -A
+git commit -m "改了什么"
+git push
+```
+
+**2. 重新打包**
+
+```bash
+pnpm build
+pnpm run pack:exe
+```
+
+**3. 压缩**（exe 文件夹 + 启动脚本 + 单文件版 + 说明）
+
+```powershell
+tar -a -c -f game-sandbox-win32-x64.zip "Sandbox-win32-x64" "启动游戏.bat" "drop-zone.html" "README.md"
+```
+
+**4. 发 Release**
+
+- **网页**：仓库右侧 Releases → Draft a new release → 新建 tag（如 `v0.2.0`）→ 把 zip 拖进附件区 → Publish
+- **命令行**：用 GitHub API 创建 release 再上传附件，或者直接让 AI 助手代劳
+
+> `.gitignore` 已排除 `Sandbox-win32-x64/`、`*.zip`、`dist/`、`drop-zone.html`、`node_modules/`，不会误提交。
+>
+> 打包脚本的忽略规则别写死前导斜杠（`^/src` 匹配不上），要用 `/^\/?(src|games|...)(\/|$)/`，否则会把根目录的 zip 和旧 exe 一起打进 asar（曾经把 asar 从 4 MB 撑到 155 MB）。
+
+---
+
 ## 两个游戏
 
 ### DROP ZONE（3D 吃鸡）
