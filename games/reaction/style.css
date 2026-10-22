@@ -1,0 +1,114 @@
+/* 反应靶场专用 */
+/* ---------------- 反应靶场 ---------------- */
+
+.rt-wrap {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, #16202c, #070a0e 70%);
+}
+
+.rt-hud {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 34px;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: rgba(233, 238, 243, 0.6);
+}
+
+.rt-hud b {
+  margin-left: 6px;
+  font-size: 22px;
+  color: #fff;
+}
+
+.rt-field {
+  position: absolute;
+  inset: 0;
+}
+
+.rt-target {
+  position: absolute;
+  width: 62px;
+  height: 62px;
+  margin: -31px 0 0 -31px;
+  border-radius: 50%;
+  cursor: crosshair;
+  background: radial-gradient(circle at 35% 30%, #ffd08a, #ff7a3d 60%, #b93d16);
+  box-shadow: 0 0 24px rgba(255, 140, 60, 0.55);
+  animation: rtPop 0.12s ease-out;
+}
+
+@keyframes rtPop {
+  from {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+}
+
+.rt-over {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 8, 11, 0.86);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.rt-over.on {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.rt-panel {
+  text-align: center;
+}
+
+.rt-panel h2 {
+  margin: 0 0 10px;
+  font-size: 34px;
+  letter-spacing: 6px;
+}
+
+.rt-panel p {
+  margin: 0 0 22px;
+  font-size: 14px;
+  color: rgba(233, 238, 243, 0.7);
+}
+
+.rt-panel b {
+  font-size: 22px;
+  color: #ffb03a;
+}
+
+.rt-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  align-items: center;
+}
+
+.rt-actions button {
+  padding: 10px 26px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #1a1205;
+  background: linear-gradient(180deg, #ffc25a, #c9831f);
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.rt-actions a {
+  font-size: 13px;
+  color: rgba(233, 238, 243, 0.6);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(233, 238, 243, 0.25);
+}

@@ -1,0 +1,774 @@
+/* 吃鸡专用：HUD、准星、覆盖层、选图页 */
+#app canvas {
+  display: block;
+}
+
+/* ---------------- HUD ---------------- */
+
+#hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 0.25s ease;
+}
+
+#hud.hidden {
+  opacity: 0;
+}
+
+/* 准星 */
+#crosshair {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+}
+
+#crosshair .ch {
+  position: absolute;
+  background: #f4f7fa;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.9);
+  opacity: 0.92;
+}
+
+#crosshair .t,
+#crosshair .b {
+  width: 2px;
+  height: 8px;
+  left: -1px;
+}
+
+#crosshair .l,
+#crosshair .r {
+  width: 8px;
+  height: 2px;
+  top: -1px;
+}
+
+#crosshair .t {
+  bottom: var(--ch-gap);
+}
+
+#crosshair .b {
+  top: var(--ch-gap);
+}
+
+#crosshair .l {
+  right: var(--ch-gap);
+}
+
+#crosshair .r {
+  left: var(--ch-gap);
+}
+
+#crosshair .dot {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  left: -1.5px;
+  top: -1.5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* 命中标记 */
+#hitmarker {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  opacity: 0;
+  transition: opacity 0.08s ease;
+}
+
+#hitmarker.on {
+  opacity: 1;
+}
+
+/* 倍镜：全屏镜圈 + 十字线 */
+#scope {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.14s ease;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(0, 0, 0, 0) 0 33vmin,
+    rgba(0, 0, 0, 0.5) 34vmin,
+    rgba(0, 0, 0, 0.985) 39vmin
+  );
+}
+
+#scope.on {
+  opacity: 1;
+}
+
+#scope .sc-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 68vmin;
+  height: 68vmin;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.9), inset 0 0 46px rgba(0, 0, 0, 0.85);
+}
+
+#scope .sc-cross {
+  position: absolute;
+  background: rgba(12, 15, 17, 0.9);
+}
+
+#scope .sc-cross.h {
+  left: 50%;
+  top: 50%;
+  width: 58vmin;
+  height: 1px;
+  transform: translate(-50%, -50%);
+}
+
+#scope .sc-cross.v {
+  left: 50%;
+  top: 50%;
+  width: 1px;
+  height: 58vmin;
+  transform: translate(-50%, -50%);
+}
+
+/* ---------------- 主界面 v2 ---------------- */
+
+#mapSelect {
+  background:
+    radial-gradient(ellipse at 50% 125%, rgba(255, 140, 50, 0.18), transparent 62%),
+    linear-gradient(180deg, rgba(4, 7, 10, 0.22), rgba(4, 7, 10, 0.8));
+}
+
+.map-inner {
+  position: relative;
+}
+
+.map-inner h1 {
+  font-size: 66px;
+  letter-spacing: 20px;
+  text-shadow: none;
+  background: linear-gradient(100deg, #ffe0a8, #ffb03a 28%, #ff7a3d 52%, #ffe0a8 78%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: titleFlow 7s linear infinite;
+  filter: drop-shadow(0 0 34px rgba(255, 150, 50, 0.35));
+}
+
+.map-sub {
+  margin: 14px 0 40px;
+  letter-spacing: 7px;
+  color: rgba(233, 238, 243, 0.55);
+}
+
+.map-card {
+  position: relative;
+  width: 344px;
+  padding: 30px 28px 24px;
+  border-radius: 4px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.025));
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  animation: cardIn 0.45s ease both;
+}
+
+.map-card:nth-child(2) {
+  animation-delay: 0.09s;
+}
+
+.map-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+}
+
+.map-card:hover {
+  transform: translateY(-8px);
+  background: linear-gradient(160deg, rgba(255, 176, 58, 0.13), rgba(255, 255, 255, 0.03));
+  border-color: rgba(255, 176, 58, 0.72);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.55), 0 0 44px rgba(255, 176, 58, 0.14);
+}
+
+.map-name {
+  font-size: 30px;
+  letter-spacing: 5px;
+}
+
+.menu-foot {
+  margin-top: 44px;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: rgba(233, 238, 243, 0.3);
+}
+
+.menu-back {
+  margin-right: 16px;
+  color: rgba(233, 238, 243, 0.55);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(233, 238, 243, 0.22);
+  letter-spacing: 1px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.menu-back:hover {
+  color: #ffb03a;
+  border-color: rgba(255, 176, 58, 0.6);
+}
+
+/* 当前武器剪影 */
+#weaponIcon {
+  height: 34px;
+  margin-bottom: 2px;
+  text-align: right;
+  color: rgba(233, 238, 243, 0.92);
+}
+
+#weaponIcon svg {
+  display: inline-block;
+  height: 34px;
+  width: auto;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.55));
+}
+
+#hitmarker i {
+  position: absolute;
+  width: 9px;
+  height: 2px;
+  background: #fff;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+}
+
+#hitmarker.head i {
+  background: #ff5a4d;
+}
+
+#hitmarker i:nth-child(1) {
+  transform: rotate(45deg) translate(7px, 0);
+}
+
+#hitmarker i:nth-child(2) {
+  transform: rotate(-45deg) translate(7px, 0);
+}
+
+#hitmarker i:nth-child(3) {
+  transform: rotate(135deg) translate(7px, 0);
+}
+
+#hitmarker i:nth-child(4) {
+  transform: rotate(-135deg) translate(7px, 0);
+}
+
+/* 顶部数据 */
+#topbar {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 26px;
+}
+
+#topbar .stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 62px;
+}
+
+#topbar .stat b {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+#topbar .stat span {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: rgba(233, 238, 243, 0.55);
+}
+
+/* 小地图 */
+#minimap {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  width: 150px;
+  height: 150px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 2px;
+  background: rgba(10, 14, 18, 0.5);
+}
+
+/* 缩圈状态 */
+#zoneHud {
+  position: absolute;
+  top: 58px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 14px;
+  background: rgba(10, 14, 18, 0.45);
+  border-radius: 2px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: rgba(233, 238, 243, 0.72);
+}
+
+#zoneHud b {
+  font-size: 15px;
+  color: #7fd4ff;
+  font-variant-numeric: tabular-nums;
+}
+
+#zoneHud.shrinking b {
+  color: #ff7a5a;
+}
+
+/* 击杀播报 */
+#killfeed {
+  position: absolute;
+  top: 84px;
+  right: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+}
+
+#killfeed .feed {
+  font-size: 13px;
+  padding: 5px 10px;
+  background: rgba(10, 14, 18, 0.62);
+  border-left: 2px solid var(--accent);
+  animation: feedIn 0.18s ease-out;
+  white-space: nowrap;
+}
+
+#killfeed .feed .k {
+  color: var(--accent);
+}
+
+/* 底部状态 */
+#bottom {
+  position: absolute;
+  left: 26px;
+  right: 26px;
+  bottom: 22px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+#healthBox {
+  position: relative;
+  width: 230px;
+  height: 26px;
+  background: rgba(10, 14, 18, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+}
+
+#healthFill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  background: linear-gradient(90deg, var(--hp), #9be36a);
+  transform-origin: left center;
+  transition: transform 0.18s ease, background 0.2s;
+}
+
+#hpText {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+#weaponBox {
+  text-align: right;
+  line-height: 1.1;
+}
+
+#weaponBox .wname {
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: rgba(233, 238, 243, 0.6);
+}
+
+#weaponBox .ammo b {
+  font-size: 34px;
+  font-weight: 700;
+}
+
+#weaponBox .ammo span {
+  font-size: 16px;
+  color: rgba(233, 238, 243, 0.5);
+  margin-left: 4px;
+}
+
+#weaponBox .reload {
+  height: 16px;
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 1px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+#weaponBox .reload.on {
+  opacity: 1;
+}
+
+/* 护甲条：有甲才显示 */
+#vitals {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#armorBox {
+  width: 230px;
+  height: 7px;
+  background: rgba(10, 14, 18, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  opacity: 0;
+  transition: opacity 0.2s;
+  overflow: hidden;
+}
+
+#armorBox.on {
+  opacity: 1;
+}
+
+#armorFill {
+  height: 100%;
+  width: 100%;
+  transform-origin: left center;
+  background: linear-gradient(90deg, #3d8fd0, #7fd4ff);
+}
+
+/* 拾取提示 */
+#pickupPrompt {
+  position: absolute;
+  left: 50%;
+  bottom: 108px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: rgba(10, 14, 18, 0.62);
+  border-left: 2px solid var(--accent);
+  font-size: 14px;
+  letter-spacing: 1px;
+  opacity: 0;
+  transition: opacity 0.12s;
+  white-space: nowrap;
+}
+
+#pickupPrompt.on {
+  opacity: 1;
+}
+
+#pickupPrompt kbd {
+  display: inline-block;
+  min-width: 20px;
+  padding: 2px 6px;
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  font-size: 12px;
+  text-align: center;
+  color: #1a1205;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+#damageVignette {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(190, 20, 20, 0.85) 100%);
+  transition: opacity 0.35s ease-out;
+}
+
+#damageVignette.on {
+  opacity: 1;
+  transition: opacity 0.06s ease-in;
+}
+
+#damageVignette.outside {
+  opacity: 1;
+  animation: zonePulse 1.3s ease-in-out infinite;
+}
+
+/* ---------------- 覆盖层 ---------------- */
+
+#overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at center, rgba(10, 14, 18, 0.72), rgba(6, 8, 11, 0.94));
+  backdrop-filter: blur(3px);
+  cursor: pointer;
+}
+
+#overlay.hidden {
+  display: none;
+}
+
+#overlay .panel {
+  text-align: center;
+  padding: 34px 46px;
+  max-width: 560px;
+}
+
+#overlay h1 {
+  margin: 0;
+  font-size: 40px;
+  letter-spacing: 8px;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 0 26px rgba(255, 176, 58, 0.35);
+}
+
+#overlay .sub {
+  margin: 8px 0 26px;
+  font-size: 13px;
+  letter-spacing: 4px;
+  color: rgba(233, 238, 243, 0.5);
+}
+
+#overlay .keys {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 22px;
+  margin: 0 auto 28px;
+  text-align: left;
+  max-width: 420px;
+}
+
+#overlay .keys div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: rgba(233, 238, 243, 0.78);
+}
+
+#overlay kbd {
+  display: inline-block;
+  min-width: 74px;
+  padding: 3px 7px;
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  font-size: 11px;
+  text-align: center;
+  color: #dfe6ee;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 3px;
+}
+
+#overlay button {
+  padding: 12px 46px;
+  font-size: 15px;
+  letter-spacing: 3px;
+  font-weight: 700;
+  color: #1a1205;
+  background: linear-gradient(180deg, #ffc25a, var(--accent-dim));
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(255, 160, 40, 0.25);
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+
+#overlay button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 30px rgba(255, 160, 40, 0.4);
+}
+
+/* 次要按钮：退出到主界面 */
+#overlay #ovQuit {
+  display: none;
+  margin: 12px auto 0;
+  padding: 9px 26px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  color: rgba(233, 238, 243, 0.68);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: none;
+}
+
+#overlay #ovQuit:hover {
+  color: #fff;
+  border-color: rgba(255, 176, 58, 0.7);
+  background: rgba(255, 176, 58, 0.08);
+  box-shadow: none;
+  transform: none;
+}
+
+#overlay .hint {
+  margin-top: 18px;
+  font-size: 11px;
+  color: rgba(233, 238, 243, 0.32);
+  letter-spacing: 1px;
+}
+
+#overlay.dead h1 {
+  color: #ff5a4d;
+  text-shadow: 0 0 30px rgba(255, 60, 50, 0.4);
+}
+
+#overlay.dead .keys {
+  display: none;
+}
+
+#overlay.dead #ovSub {
+  letter-spacing: 2px;
+  color: rgba(255, 150, 140, 0.7);
+}
+
+#overlay.win h1 {
+  color: #ffd35a;
+  text-shadow: 0 0 34px rgba(255, 200, 60, 0.45);
+}
+
+#overlay.win #ovSub {
+  letter-spacing: 2px;
+  color: rgba(255, 220, 150, 0.8);
+}
+
+#overlay.win .keys {
+  display: none;
+}
+
+#overlay.dead .hint,
+#overlay.win .hint {
+  display: none;
+}
+
+#fps {
+  position: fixed;
+  right: 10px;
+  bottom: 6px;
+  z-index: 15;
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  font-size: 11px;
+  color: rgba(233, 238, 243, 0.3);
+  pointer-events: none;
+}
+
+/* ---------------- 地图选择 ---------------- */
+
+#mapSelect {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at center, #16202a, #06090c 72%);
+}
+
+.map-inner {
+  text-align: center;
+  max-width: 900px;
+  padding: 30px;
+}
+
+.map-inner h1 {
+  margin: 0 0 6px;
+  font-size: 44px;
+  letter-spacing: 12px;
+  font-weight: 800;
+  text-shadow: 0 0 30px rgba(255, 176, 58, 0.28);
+}
+
+.map-sub {
+  margin: 0 0 36px;
+  font-size: 13px;
+  letter-spacing: 5px;
+  color: rgba(233, 238, 243, 0.45);
+}
+
+.map-list {
+  display: flex;
+  gap: 22px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.map-card {
+  display: block;
+  width: 330px;
+  padding: 26px 24px 22px;
+  text-align: left;
+  text-decoration: none;
+  color: #e9eef3;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+}
+
+.map-card:hover {
+  background: rgba(255, 176, 58, 0.08);
+  border-color: rgba(255, 176, 58, 0.6);
+  transform: translateY(-3px);
+}
+
+.map-name {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.map-tag {
+  margin-top: 6px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--accent);
+}
+
+.map-size {
+  margin-top: 3px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: rgba(233, 238, 243, 0.35);
+}
+
+.map-card p {
+  margin: 16px 0 18px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: rgba(233, 238, 243, 0.62);
+}
+
+.map-go {
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--accent);
+}

@@ -1,0 +1,16 @@
+# 依赖
+node_modules/
+
+# 构建产物
+dist/
+drop-zone.html
+
+# 打包出来的桌面程序（体积太大，不进仓库）
+Sandbox-win32-x64/
+*.zip
+
+# 临时文件
+*.log
+_*.png
+.DS_Store
+Thumbs.db

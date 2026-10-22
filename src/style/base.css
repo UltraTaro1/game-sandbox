@@ -1,0 +1,81 @@
+/* 所有页面共用：reset、字体、通用按钮 */
+:root {
+  --accent: #ffb03a;
+  --accent-dim: #c9831f;
+  --hp: #62d26f;
+  --bg: #0b0f14;
+  --ch-gap: 7px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: #e9eef3;
+  font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  user-select: none;
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+}
+
+.menu-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 52%, rgba(255, 176, 58, 0.14), transparent 52%);
+}
+
+.menu-kicker {
+  margin: 0 0 16px;
+  font-size: 11px;
+  letter-spacing: 9px;
+  color: rgba(255, 176, 58, 0.8);
+}
+
+@keyframes titleFlow {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.card-stats {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 20px;
+}
+
+.card-stats span {
+  padding: 3px 10px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: rgba(233, 238, 243, 0.72);
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+
+@keyframes feedIn {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+}
+
+@keyframes zonePulse {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
