@@ -18,4 +18,12 @@ export const GAMES: GameManifest[] = [
     tags: ['2D', '休闲'],
     href: './games/reaction/index.html',
   },
+  {
+    id: 'gomoku',
+    name: '五子棋',
+    tagline: '人机 · 双人',
+    desc: '棋盘用实拍木纹，棋子带高光与阴影。AI 是启发式 + Alpha-Beta 搜索，三档难度。',
+    tags: ['2D', '棋类', 'AI'],
+    href: './games/gomoku/index.html',
+  },
 ]

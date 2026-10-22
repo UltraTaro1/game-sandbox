@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>五子棋</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #14100c;
+        color: #ede4d6;
+        font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background:
+          radial-gradient(ellipse at 30% 20%, rgba(120, 80, 40, 0.18), transparent 60%),
+          linear-gradient(160deg, #1b1510, #0d0a07);
+      }
+      #app {
+        display: flex;
+        gap: 32px;
+        align-items: center;
+        padding: 28px;
+        max-width: 1200px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      #board-area {
+        flex: 1;
+        aspect-ratio: 1;
+        max-height: 86vh;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow:
+          0 30px 70px rgba(0, 0, 0, 0.65),
+          0 0 0 1px rgba(255, 220, 170, 0.12),
+          inset 0 0 60px rgba(0, 0, 0, 0.35);
+      }
+      #board {
+        display: block;
+        cursor: pointer;
+      }
+      #panel {
+        width: 240px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      #panel h1 {
+        margin: 0;
+        font-size: 27px;
+        letter-spacing: 8px;
+        font-weight: 700;
+        background: linear-gradient(100deg, #ffe0a8, #d9a441 60%, #ffe0a8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .status {
+        margin: 0;
+        font-size: 13px;
+        letter-spacing: 1px;
+        color: #c9b48e;
+        min-height: 18px;
+      }
+      .group {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .label {
+        width: 100%;
+        font-size: 11px;
+        letter-spacing: 3px;
+        color: rgba(237, 228, 214, 0.4);
+      }
+      .group button {
+        flex: 1;
+        min-width: 62px;
+        padding: 8px 10px;
+        font: inherit;
+        font-size: 13px;
+        color: #e8dcc7;
+        background: rgba(255, 235, 205, 0.06);
+        border: 1px solid rgba(255, 220, 170, 0.18);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .group button:hover {
+        background: rgba(255, 220, 170, 0.14);
+        border-color: rgba(255, 220, 170, 0.4);
+      }
+      .group button.on {
+        background: linear-gradient(180deg, rgba(217, 164, 65, 0.9), rgba(160, 112, 34, 0.9));
+        color: #221604;
+        font-weight: 700;
+        border-color: transparent;
+      }
+      .tips {
+        margin: 4px 0 0;
+        font-size: 11px;
+        color: rgba(237, 228, 214, 0.32);
+        letter-spacing: 1px;
+      }
+      #back {
+        font-size: 12px;
+        color: rgba(237, 228, 214, 0.45);
+        text-decoration: none;
+      }
+      #back:hover {
+        color: #d9a441;
+      }
+      @media (max-width: 860px) {
+        #app {
+          flex-direction: column;
+          padding: 14px;
+          gap: 16px;
+        }
+        #panel {
+          width: min(92vw, 460px);
+        }
+        #board-area {
+          max-height: 62vh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="board-area"></div>
+      <div id="panel"></div>
+    </div>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

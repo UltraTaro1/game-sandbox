@@ -15,6 +15,7 @@ export default defineConfig({
         hub: page('./index.html'),
         battleRoyale: page('./games/battle-royale/index.html'),
         reaction: page('./games/reaction/index.html'),
+        gomoku: page('./games/gomoku/index.html'),
       },
     },
   },

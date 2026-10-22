@@ -11,10 +11,18 @@ const paths = await packager({
   asar: true,
   prune: true,
   ignore: [
-    /^\/(src|games|tools|release|public|node_modules|Sandbox-win32-x64|\.git)/,
+    // 源码、依赖、打包产物都不进 asar（前导斜杠可有可无）
+    /^\/?(src|games|tools|release|public|node_modules|Sandbox-win32-x64)(\/|$)/,
+    /^\/?\.git(\/|$)/,
+    // 根目录的大文件 / 分发物 / 配置
+    /\.zip$/,
     /\.md$/,
-    /preview\.png$/,
     /\.bat$/,
+    /preview\.png$/,
+    /pnpm-lock\.yaml$/,
+    /pnpm-workspace\.yaml$/,
+    /tsconfig\.json$/,
+    /vite\.config\.ts$/,
   ],
 })
 
